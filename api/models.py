@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MinLengthValidator, RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from rest_framework.exceptions import ValidationError
 
 
 class User(AbstractUser):
@@ -148,10 +149,22 @@ class MedicationIntake(models.Model):
 
 
 class NotificationSettings(models.Model):
+    id = models.CharField(max_length=20, primary_key=True, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='notification_settings')
-    medication_reminders_enabled = models.BooleanField(default=True)
-    minutes_before_scheduled_time = models.IntegerField(default=15)
-    low_stock_reminders_enabled = models.BooleanField(default=True)
+    medicationRemindersEnabled = models.BooleanField(default=True)
+    minutesBeforeScheduledTime = models.IntegerField(default=15)
+    lowStockRemindersEnabled = models.BooleanField(default=True)
 
     def __str__(self):
         return f"Notification settings for {self.user.email}"
+
+    def save(self, *args, **kwargs):
+        # Устанавливаем id равным user.id перед сохранением
+        if not self.id and self.user_id:  # Проверяем, что id ещё не установлен
+            self.id = str(self.user_id)  # Преобразуем user_id в строку, так как id — CharField
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        # Проверяем, что id соответствует user_id
+        if self.id and self.user_id and self.id != str(self.user_id):
+            raise ValidationError("ID must match the associated user's ID.")

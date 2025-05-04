@@ -493,9 +493,7 @@
           "id": "1622548800007",
           "medicationRemindersEnabled": true,
           "minutesBeforeScheduledTime": 15,
-          "lowStockRemindersEnabled": true,
-          "createdAt": 1622548800000,
-          "updatedAt": 1622548800000
+          "lowStockRemindersEnabled": true
       }
   ]
   ```
@@ -513,9 +511,7 @@
   {
       "medicationRemindersEnabled": true,
       "minutesBeforeScheduledTime": 30,
-      "lowStockRemindersEnabled": false,
-      "createdAt": 1622548800000,
-      "updatedAt": 1622548800000
+      "lowStockRemindersEnabled": false
   }
   ```
 - **Ожидаемый ответ (201 Создано)**:
@@ -524,9 +520,7 @@
       "id": "1622548800008",
       "medicationRemindersEnabled": true,
       "minutesBeforeScheduledTime": 30,
-      "lowStockRemindersEnabled": false,
-      "createdAt": 1622548800000,
-      "updatedAt": 1622548800000
+      "lowStockRemindersEnabled": false
   }
   ```
 
@@ -543,8 +537,7 @@
   {
       "medicationRemindersEnabled": false,
       "minutesBeforeScheduledTime": 10,
-      "lowStockRemindersEnabled": true,
-      "updatedAt": 1622548800000
+      "lowStockRemindersEnabled": true
   }
   ```
 - **Ожидаемый ответ (200 OK)**:
@@ -553,9 +546,7 @@
       "id": "1622548800008",
       "medicationRemindersEnabled": false,
       "minutesBeforeScheduledTime": 10,
-      "lowStockRemindersEnabled": true,
-      "createdAt": 1622548800000,
-      "updatedAt": 1622548800000
+      "lowStockRemindersEnabled": true
   }
   ```
 

@@ -169,19 +169,39 @@ class MedicationIntakeSerializer(serializers.ModelSerializer):
 
         return super().update(instance, validated_data)
 
-
 class NotificationSettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = NotificationSettings
         fields = [
-            'id', 'medication_reminders_enabled',
-            'minutes_before_scheduled_time', 'low_stock_reminders_enabled'
+            'id', 'medicationRemindersEnabled',
+            'minutesBeforeScheduledTime', 'lowStockRemindersEnabled',
         ]
-        # скрываем поле user от входа, оно задаётся на сервере
+        # Скрываем поле user от входа, оно задаётся на сервере
         extra_kwargs = {
             'user': {'write_only': True, 'required': False}
         }
 
     def create(self, validated_data):
-        validated_data['user'] = self.context['request'].user
-        return NotificationSettings.objects.create(**validated_data)
+        # Удаляем user из validated_data, если он там есть
+        validated_data.pop('user', None)
+        # Создаём объект с текущим пользователем и остальными данными
+        instance = NotificationSettings(
+            user=self.context['request'].user,
+            **validated_data
+        )
+        instance.save()  # save() установит id равным user.id
+        return instance
+
+    def update(self, instance, validated_data):
+        # Обновляем только изменяемые поля
+        instance.medicationRemindersEnabled = validated_data.get(
+            'medicationRemindersEnabled', instance.medicationRemindersEnabled
+        )
+        instance.minutesBeforeScheduledTime = validated_data.get(
+            'minutesBeforeScheduledTime', instance.minutesBeforeScheduledTime
+        )
+        instance.lowStockRemindersEnabled = validated_data.get(
+            'lowStockRemindersEnabled', instance.lowStockRemindersEnabled
+        )
+        instance.save()
+        return instance
