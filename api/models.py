@@ -9,6 +9,7 @@ class User(AbstractUser):
     id = models.CharField(max_length=20, primary_key=True)
     # базовый класс пользователя уже включает поля username, password, first_name, last_name, и прочие.
     email = models.EmailField(unique=True) #делаем email уникальным
+    photoUrl = models.CharField(max_length=255, blank=True, null=True)  # Новое поле для URL фотографии
     #photo = models.ImageField(upload_to='avatars/', blank=True, null=True) #будет хранится в папке media/avatars/
 
     USERNAME_FIELD = 'email' #теперь это логин

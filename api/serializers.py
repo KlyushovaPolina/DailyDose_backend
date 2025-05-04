@@ -7,20 +7,22 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 
 class UserCreateSerializer(BaseUserCreateSerializer):
     name = serializers.CharField(source='username')
+    photoUrl = serializers.CharField(allow_blank=True, allow_null=True, required=False)
 
     class Meta(BaseUserCreateSerializer.Meta):
         model = User
-        fields = ('id', 'name', 'email', 'password')
+        fields = ('id', 'name', 'email', 'password', 'photoUrl')
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True) #чтобы не просил айди при пут запросе
     #фронтенд ждет name, так что переименуем:
     name = serializers.CharField(source='username')
+    photoUrl = serializers.CharField(allow_blank=True, allow_null=True)
     #photoUrl = serializers.SerializerMethodField() #значение будет вычисляться с помощью метода ниже
     class Meta:
         model = User
         #fields = ('id', 'name', 'email', 'photoUrl') #указываем какие параметры из модели использовать
-        fields = ('id', 'name', 'email')  # указываем какие параметры из модели использовать
+        fields = ('id', 'name', 'email', 'photoUrl')  # указываем какие параметры из модели использовать
 
     # def get_photoUrl(self, obj):
     #     request = self.context.get('request')
