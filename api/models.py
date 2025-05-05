@@ -38,7 +38,7 @@ class Medication(models.Model):
     form = models.CharField(max_length=20, choices=Form.choices)
     dosage_per_unit = models.CharField(max_length=100, blank=True, null=True) #необязательное
     unit = models.CharField(max_length=50)
-    instructions = models.TextField()
+    instructions = models.TextField(blank=True, null=True)
     #Добавим проверку что значения неотрицательные:
     total_quantity = models.IntegerField(
         default=0,
