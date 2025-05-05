@@ -170,3 +170,7 @@ class NotificationSettings(models.Model):
         # Проверяем, что id соответствует user_id
         if self.id and self.user_id and self.id != str(self.user_id):
             raise ValidationError("ID must match the associated user's ID.")
+
+    class Meta:
+        verbose_name = "Notification Settings"
+        verbose_name_plural = "Notification Settings"
