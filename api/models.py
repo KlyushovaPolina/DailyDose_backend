@@ -116,8 +116,18 @@ class MedicationIntake(models.Model):
         PENDING = "pending", "Ожидается"
 
     id = models.CharField(max_length=20, primary_key=True)
-    schedule = models.ForeignKey(MedicationSchedule, on_delete=models.CASCADE, related_name='intakes')
-    medication = models.ForeignKey(Medication, on_delete=models.CASCADE, related_name='intakes')
+    schedule = models.ForeignKey(
+        MedicationSchedule,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='intakes'
+    )
+    medication = models.ForeignKey(
+        Medication,
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='intakes'
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     scheduled_time = models.CharField( #используем charfield как во фронте
         max_length=5,

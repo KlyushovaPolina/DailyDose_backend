@@ -98,8 +98,8 @@ class MedicationScheduleSerializer(serializers.ModelSerializer):
 
 
 class MedicationIntakeSerializer(serializers.ModelSerializer):
-    scheduleId = serializers.CharField(source='schedule.id')
-    medicationId = serializers.CharField(source='medication.id')
+    scheduleId = serializers.SerializerMethodField()
+    medicationId = serializers.SerializerMethodField()
     #используем CharField как во фронтенде
     scheduledTime = serializers.CharField(source='scheduled_time')
     scheduledDate = serializers.CharField(source='scheduled_date')
@@ -141,15 +141,14 @@ class MedicationIntakeSerializer(serializers.ModelSerializer):
         # Проставляем связанные объекты
         validated_data['schedule'] = schedule
         validated_data['medication'] = medication
-        validated_data['medication_name'] = medication.name
-        validated_data['meal_relation'] = schedule.meal_relation
-        validated_data['dosage_per_unit'] = medication.dosage_per_unit
-        validated_data['instructions'] = medication.instructions
-        validated_data['unit'] = medication.unit
-        validated_data['icon_name'] = medication.icon_name
-        validated_data['icon_color'] = medication.icon_color
 
         return super().create(validated_data)
+
+    def get_scheduleId(self, obj):
+        return obj.schedule.id if obj.schedule else "deleted"
+
+    def get_medicationId(self, obj):
+        return obj.medication.id if obj.medication else "deleted"
 
     def update(self, instance, validated_data):
         if 'schedule' in validated_data:
@@ -159,15 +158,6 @@ class MedicationIntakeSerializer(serializers.ModelSerializer):
         if 'medication' in validated_data:
             medication_id = validated_data.pop('medication').get('id')
             validated_data['medication'] = Medication.objects.get(id=medication_id, user=self.context['request'].user)
-
-        if 'schedule' in validated_data or 'medication' in validated_data:
-            validated_data['medication_name'] = validated_data['medication'].name
-            validated_data['meal_relation'] = validated_data['schedule'].meal_relation
-            validated_data['dosage_per_unit'] = validated_data['medication'].dosage_per_unit
-            validated_data['instructions'] = validated_data['medication'].instructions
-            validated_data['unit'] = validated_data['medication'].unit
-            validated_data['icon_name'] = validated_data['medication'].icon_name
-            validated_data['icon_color'] = validated_data['medication'].icon_color
 
         return super().update(instance, validated_data)
 
