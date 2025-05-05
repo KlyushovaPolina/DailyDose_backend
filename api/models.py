@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from rest_framework.exceptions import ValidationError
 
 
+
 class User(AbstractUser):
     #id берем с фронтенда
     id = models.CharField(max_length=20, primary_key=True)
