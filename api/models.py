@@ -146,7 +146,7 @@ class MedicationIntake(models.Model):
     medication_name = models.CharField(max_length=100, validators=[MinLengthValidator(1)])
     meal_relation = models.CharField(max_length=30, choices=MedicationSchedule.MealRelation.choices)
     dosage_per_unit = models.CharField(max_length=100, blank=True, null=True)
-    instructions = models.TextField()
+    instructions = models.TextField(blank=True, null=True)
     dosage_by_time = models.CharField(max_length=20, validators=[MinLengthValidator(1)])
     unit = models.CharField(max_length=20, validators=[MinLengthValidator(1)])
     icon_name = models.CharField(max_length=50)
