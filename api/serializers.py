@@ -100,7 +100,7 @@ class MedicationIntakeSerializer(serializers.ModelSerializer):
     updatedAt = serializers.IntegerField(source='updated_at')
     medicationName = serializers.CharField(source='medication_name')
     mealRelation = serializers.CharField(source='meal_relation')
-    dosagePerUnit = serializers.CharField(source='dosage_per_unit', allow_null=True, required=False)
+    dosagePerUnit = serializers.CharField(source='dosage_per_unit', allow_null=True, allow_blank=True, required=False)
     dosageByTime = serializers.CharField(source='dosage_by_time')
     iconName = serializers.CharField(source='icon_name')
     iconColor = serializers.CharField(source='icon_color')
