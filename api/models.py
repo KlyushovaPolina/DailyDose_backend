@@ -8,6 +8,8 @@ from rest_framework.exceptions import ValidationError
 class User(AbstractUser):
     #id берем с фронтенда
     id = models.CharField(max_length=20, primary_key=True)
+    # Убираем уникальность с поля username
+    username = models.CharField(max_length=150, blank=True)  # убираем unique=True
     # базовый класс пользователя уже включает поля username, password, first_name, last_name, и прочие.
     email = models.EmailField(unique=True) #делаем email уникальным
     photoUrl = models.CharField(max_length=255, blank=True, null=True)  # Новое поле для URL фотографии
@@ -116,18 +118,8 @@ class MedicationIntake(models.Model):
         PENDING = "pending", "Ожидается"
 
     id = models.CharField(max_length=20, primary_key=True)
-    schedule = models.ForeignKey(
-        MedicationSchedule,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='intakes'
-    )
-    medication = models.ForeignKey(
-        Medication,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name='intakes'
-    )
+    scheduleId = models.CharField()
+    medicationId = models.CharField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     scheduled_time = models.CharField( #используем charfield как во фронте
         max_length=5,

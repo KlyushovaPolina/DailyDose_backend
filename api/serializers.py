@@ -98,8 +98,6 @@ class MedicationScheduleSerializer(serializers.ModelSerializer):
 
 
 class MedicationIntakeSerializer(serializers.ModelSerializer):
-    scheduleId = serializers.SerializerMethodField()
-    medicationId = serializers.SerializerMethodField()
     #используем CharField как во фронтенде
     scheduledTime = serializers.CharField(source='scheduled_time')
     scheduledDate = serializers.CharField(source='scheduled_date')
@@ -124,42 +122,8 @@ class MedicationIntakeSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        # Получаем ID расписания
-        schedule_data = validated_data.pop('schedule')  # это dict: {'id': '...'}
-        schedule_id = schedule_data['id']
-
-        # Получаем объект расписания из базы
-        user = self.context['request'].user
-        try:
-            schedule = MedicationSchedule.objects.get(id=schedule_id, user=user)
-        except MedicationSchedule.DoesNotExist:
-            raise serializers.ValidationError("Расписание с таким ID не найдено или не принадлежит пользователю")
-
-        # Получаем связанный объект лекарства
-        medication = schedule.medication
-
-        # Проставляем связанные объекты
-        validated_data['schedule'] = schedule
-        validated_data['medication'] = medication
-
-        return super().create(validated_data)
-
-    def get_scheduleId(self, obj):
-        return obj.schedule.id if obj.schedule else "deleted"
-
-    def get_medicationId(self, obj):
-        return obj.medication.id if obj.medication else "deleted"
-
-    def update(self, instance, validated_data):
-        if 'schedule' in validated_data:
-            schedule_id = validated_data.pop('schedule').get('id')
-            validated_data['schedule'] = MedicationSchedule.objects.get(id=schedule_id,
-                                                                        user=self.context['request'].user)
-        if 'medication' in validated_data:
-            medication_id = validated_data.pop('medication').get('id')
-            validated_data['medication'] = Medication.objects.get(id=medication_id, user=self.context['request'].user)
-
-        return super().update(instance, validated_data)
+        validated_data['user'] = self.context['request'].user
+        return MedicationIntake.objects.create(**validated_data)
 
 class NotificationSettingsSerializer(serializers.ModelSerializer):
     class Meta:

@@ -21,8 +21,8 @@ class MedicationScheduleAdmin(admin.ModelAdmin):
 
 # Кастомизация админки для модели MedicationIntake
 class MedicationIntakeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'schedule', 'medication', 'scheduled_date', 'scheduled_time', 'status', 'taken_at', 'created_at', 'updated_at')
-    search_fields = ('id', 'medication__name', 'schedule__id')
+    list_display = ('id', 'scheduleId', 'medicationId', 'scheduled_date', 'scheduled_time', 'status', 'taken_at', 'created_at', 'updated_at')
+    search_fields = ('id',)
 
 # Кастомизация админки для модели NotificationSettings
 class NotificationSettingsAdmin(admin.ModelAdmin):
