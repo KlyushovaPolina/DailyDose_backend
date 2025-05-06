@@ -88,8 +88,8 @@ class MedicationSchedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='schedules')
     medication = models.ForeignKey(Medication, on_delete=models.CASCADE, related_name='schedules')
     frequency = models.CharField(max_length=30, choices=Frequency.choices)
-    days = models.JSONField(default=list)  # массив чисел 1-7 (понедельник–воскресенье)
-    dates = models.JSONField(default=list)  # массив строк YYYY-MM-DD
+    days = models.JSONField(default=list, blank=True, null=True)  # массив чисел 1-7 (понедельник–воскресенье)
+    dates = models.JSONField(default=list, blank=True, null=True)  # массив строк YYYY-MM-DD
     times = models.JSONField(default=list)  # массив объектов: { time: "HH:MM", dosage: "value", unit: "мг" }
     meal_relation = models.CharField(max_length=30, choices=MealRelation.choices)
     start_date = models.DateField()
