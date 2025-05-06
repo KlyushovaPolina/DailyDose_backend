@@ -12,8 +12,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=150, blank=True)  # убираем unique=True
     # базовый класс пользователя уже включает поля username, password, first_name, last_name, и прочие.
     email = models.EmailField(unique=True) #делаем email уникальным
-    photoUrl = models.CharField(max_length=255, blank=True, null=True)  # Новое поле для URL фотографии
-    #photo = models.ImageField(upload_to='avatars/', blank=True, null=True) #будет хранится в папке media/avatars/
+    photoUrl = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = 'email' #теперь это логин
     REQUIRED_FIELDS = ['id', 'username'] #в сериализаторе переименован в name
@@ -134,7 +133,6 @@ class MedicationIntake(models.Model):
     created_at = models.BigIntegerField()
     updated_at = models.BigIntegerField()
 
-    # Дублируем поля для быстрого доступа
     medication_name = models.CharField(max_length=100, validators=[MinLengthValidator(1)])
     meal_relation = models.CharField(max_length=30, choices=MedicationSchedule.MealRelation.choices)
     dosage_per_unit = models.CharField(max_length=100, blank=True, null=True)
