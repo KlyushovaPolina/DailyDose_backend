@@ -10,7 +10,7 @@ class CustomUserAdmin(UserAdmin):
 
 # Кастомизация админки для модели Medication
 class MedicationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'name', 'form', 'unit', 'total_quantity', 'remaining_quantity', 'track_stock', 'created_at', 'updated_at')
+    list_display = ('id', 'user', 'name', 'form', 'unit', 'totalQuantity', 'remainingQuantity', 'track_stock', 'created_at', 'updated_at')
     search_fields = ('id', 'name', 'instructions')
 
 

@@ -42,17 +42,17 @@ class Medication(models.Model):
     unit = models.CharField(max_length=50)
     instructions = models.TextField(blank=True, null=True)
     #Добавим проверку что значения неотрицательные:
-    total_quantity = models.IntegerField(
-        default=0,
-        validators=[MinValueValidator(0)]
+    totalQuantity = models.FloatField(
+        default=0.0,
+        validators=[MinValueValidator(0.0)]
     )
-    remaining_quantity = models.IntegerField(
-        default=0,
-        validators=[MinValueValidator(0)]
+    remainingQuantity = models.FloatField(
+        default=0.0,
+        validators=[MinValueValidator(0.0)]
     )
-    low_stock_threshold = models.IntegerField(
-        default=0,
-        validators=[MinValueValidator(0)]
+    lowStockThreshold = models.FloatField(
+        default=0.0,
+        validators=[MinValueValidator(0.0)]
     )
     track_stock = models.BooleanField(default=True)
     icon_name = models.CharField(max_length=50)

@@ -27,9 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
 class MedicationSerializer(serializers.ModelSerializer):
     #переписываем все названия в camelCase как во фронтенде
     dosagePerUnit = serializers.CharField(source='dosage_per_unit', allow_blank=True, allow_null=True, required=False)
-    totalQuantity = serializers.IntegerField(source='total_quantity')
-    remainingQuantity = serializers.IntegerField(source='remaining_quantity')
-    lowStockThreshold = serializers.IntegerField(source='low_stock_threshold')
     trackStock = serializers.BooleanField(source='track_stock')
     iconName = serializers.CharField(source='icon_name')
     iconColor = serializers.CharField(source='icon_color')
